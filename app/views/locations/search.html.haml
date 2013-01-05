@@ -1,0 +1,7 @@
+-form_for :search, :url => location_search_url do |f|
+  =f.text_field :term
+- if @location.present?
+  %h2= @location.to_s
+  = link_to 'Show', @location
+  = link_to 'Edit', edit_location_path(@location)
+  = link_to 'Destroy', @location, :confirm => 'Are you sure?', :method => :delete

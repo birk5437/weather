@@ -1,0 +1,18 @@
+%h2= @location.to_s
+%h3{:id => "zip"}= @location.zip
+
+%table
+  - @location.current_conditions.each do |name, value|
+    %tr
+      %td= name
+      - if name == "weatherIconUrl"
+        %td
+          = image_tag value.first["value"]
+      - else
+        %td= value
+
+#content
+
+= link_to 'Edit', edit_location_path(@location)
+= link_to 'Back', locations_path
+
