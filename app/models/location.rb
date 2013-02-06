@@ -19,4 +19,8 @@ class Location < ActiveRecord::Base
     response = JSON.parse(RestClient.get(url))["data"]["current_condition"].first
   end
 
+  def self.popular_locations
+    Location.find(:all, :conditions => "request_count > 0", :order => "request_count DESC", :limit => 10)
+  end
+
 end

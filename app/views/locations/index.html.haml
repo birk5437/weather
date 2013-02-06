@@ -7,10 +7,13 @@
 -form_for :search, :url => location_search_url do |f|
   =f.text_field :term
 
-- if @location.present?
-  %h2= @location.to_s
-  = #link_to 'Show', @location
-  = #link_to 'Edit', edit_location_path(@location)
-  = #link_to 'Destroy', @location, :confirm => 'Are you sure?', :method => :delete
+- popular_locations = Location.popular_locations
+- if popular_locations.count > 1
+  %br
+  %h4 Top Locations
+  %ol
+    - popular_locations.each do |location|
+      %li= link_to "#{location.to_s} #{location.zip}", location_url(location)
+
 
 = #link_to 'New location', new_location_path

@@ -35,6 +35,8 @@ class LocationsController < ApplicationController
   # GET /locations/1.xml
   def show
     @location = Location.find(params[:id])
+    @location.request_count += 1
+    @location.save
 
     respond_to do |format|
       format.html # show.html.erb
