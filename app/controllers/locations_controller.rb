@@ -17,7 +17,12 @@ class LocationsController < ApplicationController
     search_term = params.fetch(:search, {})[:term]
     search_terms = search_term.gsub(" ", ",").split(",").select(&:present?)
     @location = Location.find_by_zip(params[:search][:term]) if params[:search].present?
-    redirect_to location_path(@location)
+    if @location.blank?
+      flash[:error] = "Zip code not found."
+      redirect_to locations_path
+    else
+      redirect_to location_path(@location)
+    end
   end
 
   def search_by_zip
