@@ -4,8 +4,9 @@
 %h1 Current Local Weather!
 %h3 Enter a U.S. Zip Code
 
--form_for :search, :url => location_search_url do |f|
-  =f.text_field :term
+-semantic_form_for :search, :url => location_search_url do |f|
+  = f.text_field :term
+  = f.commit_button :button_html => { :value => "Search" }
 
 - popular_locations = Location.popular_locations
 - if popular_locations.count > 1

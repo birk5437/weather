@@ -5,6 +5,15 @@ body, p, ol, ul, td {
   font-size:   13px;
   line-height: 18px;
 }
+body, ul {
+  list-style-type: none;
+}
+
+.error, span{
+  background-color: red;
+  padding: 10px;
+  font-size: 15px;
+}
 
 pre {
   background-color: #eee;
