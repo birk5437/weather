@@ -1,0 +1,10 @@
+// Put boostrap customization values here before the @import
+//
+// Customization variables can be found at  http://getbootstrap.com/customize/
+
+.navbar-avatar {
+  margin-top: 10px;
+}
+
+$grid-gutter-width: 50px;
+@import "bootstrap"
