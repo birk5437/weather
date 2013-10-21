@@ -1,15 +1,13 @@
 %h2= @location.to_s
+.weather-icon= image_tag @location.current_conditions_icon_url
 %h3{:id => "zip"}= @location.zip
 
 %table
   - @location.current_conditions.each do |name, value|
     %tr
+    - if name != "weatherIconUrl"
       %td= name
-      - if name == "weatherIconUrl"
-        %td
-          = image_tag value.first["value"]
-      - else
-        %td= value
+      %td= value
 
 #content
 
