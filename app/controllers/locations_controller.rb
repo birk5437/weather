@@ -21,6 +21,8 @@ class LocationsController < ApplicationController
       flash[:error] = "Zip code not found."
       redirect_to locations_path
     else
+      @location.request_count += 1
+      @location.save
       redirect_to location_path(@location)
     end
   end
@@ -35,8 +37,8 @@ class LocationsController < ApplicationController
   # GET /locations/1.xml
   def show
     @location = Location.find(params[:id])
-    @location.request_count += 1
-    @location.save
+    # @location.request_count += 1
+    # @location.save
 
     respond_to do |format|
       format.html # show.html.erb

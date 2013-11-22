@@ -1,5 +1,11 @@
 class Location < ActiveRecord::Base
 
+  attr_accessible :address, :latitude, :longitude
+
+  # https://github.com/alexreisner/geocoder/tree/rails2
+  # script/plugin install git://github.com/alexreisner/geocoder.git -r rails2
+  geocoded_by :address
+
 # JSON.parse(RestClient.get("http://free.worldweatheronline.com/feed/weather.ashx?q=49720&format=json&key=55d99285d6001415122608"))
 
   def to_s
