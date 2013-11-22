@@ -8,3 +8,4 @@ gem "inherited_resources"
 gem "rest-client", "~> 1.6.7"
 gem "json"
 # gem "geocoder", "~> 1.1.8"
+# gem "awesome_print", :group => [:development]

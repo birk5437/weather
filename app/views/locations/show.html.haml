@@ -1,17 +1,28 @@
-%h2= @location.to_s
-.weather-icon= image_tag @location.current_conditions_icon_url
-%h3{:id => "zip"}= @location.zip
-
-%table
-  - @location.current_conditions.each do |name, value|
-    %tr
-    - if name != "weatherIconUrl"
-      %td= name
-      %td= value
-
-#content
+- current_conditions = @location.current_conditions
+.content{:style => "min-width: 900px;"}
+  %div{:style => "width: 25%; float: left; min-width: 190px;"}
+    %table
+      %tr
+        %td{:colspan => "2"}
+          %h2= @location.to_s
+          %h3{:id => "zip"}= @location.zip
+      %tr
+        %td{:colspan => "2"}
+          %p{:style => "margin-top: .3em;font-size: 4em; margin-bottom: .6em;"}= "#{current_conditions["temp_F"]}°F"
+      %tr
+        %td{:style => "padding-bottom: 1.6em;"}
+          .weather-icon= image_tag current_conditions["weatherIconUrl"]
+        %td{:style => "padding-bottom: 1.6em;"}
+          %h4= current_conditions["weatherDesc"]
+      - current_conditions.each do |name, value|
+        %tr
+          - if name != "weatherIconUrl"
+            %td= name
+            %td= value
+    %br
+    = link_to 'Go Back', locations_path
+  %div{:style => "width: 75%; float: left; min-width: 456px;"}
+    = image_tag(@location.radar_image_url, :style => "max-width: 768px; width: 100%;")
 
 =# link_to 'Edit', edit_location_path(@location)
-%br
-= link_to 'Go Back', locations_path
 
