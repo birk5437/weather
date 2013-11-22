@@ -1,5 +1,45 @@
 class Location < ActiveRecord::Base
 
+  RADAR_LOCATIONS = {
+    'lit' => [34.7294, -92.2244],
+    'prc' => [34.6544, -112.4197],
+    'bfl' => [35.4339, -119.0578],
+    'den' => [39.8617, -104.6731],
+    'hfd' => [41.7367, -72.6494],
+    'eyw' => [24.5561, -81.7594],
+    'pie' => [27.9100, -82.6875],
+    'csg' => [32.5164, -84.9389],
+    'dsm' => [41.5339, -93.6631],
+    'myl' => [44.8886, -116.1017],
+    'spi' => [39.8442, -89.6781],
+    'sln' => [38.7908, -97.6522],
+    'bwg' => [36.9644, -86.4197],
+    'msy' => [29.9933, -90.2581],
+    'cad' => [44.2753, -85.4189],
+    'stc' => [45.5467, -94.0600],
+    'jef' => [38.5911, -92.1561],
+    'tvr' => [32.3517, -91.0278],
+    'lwt' => [47.0492, -109.4667],
+    'clt' => [35.2139, -80.9431],
+    'bis' => [46.7728, -100.7458],
+    'lbf' => [41.1261, -100.6836],
+    'bml' => [44.5753, -71.1758],
+    'row' => [33.3017, -104.5306],
+    'rno' => [39.4992, -119.7681],
+    'bgm' => [42.2086, -75.9797],
+    'day' => [39.9025, -84.2194],
+    'law' => [34.5678, -98.4167],
+    'rdm' => [44.2542, -121.1500],
+    'pir' => [44.3828, -100.2861],
+    'bro' => [25.9068, -97.4258],
+    'sat' => [29.5336, -98.4697],
+    'pvu' => [40.2192, -111.7233],
+    'fcx' => [37.0242, -80.2742],
+    'shd' => [38.2639, -78.8964],
+    'tiw' => [47.2681, -122.5781],
+    'riw' => [43.0642, -108.4597]
+  }
+
   attr_accessible :address, :latitude, :longitude
 
   # https://github.com/alexreisner/geocoder/tree/rails2
@@ -29,6 +69,18 @@ class Location < ActiveRecord::Base
 
   def current_conditions_icon_url
     current_conditions["weatherIconUrl"].first["value"]
+  end
+
+  def nearest_radar_location
+    arr = []
+    Location::RADAR_LOCATIONS.each do |key, value|
+      arr << [key, Geocoder.distance_between(latitude, longitude, value.first, value.last)]
+    end
+    arr.sort_by(&:last).first.first
+  end
+
+  def radar_image_url
+    "http://images.intellicast.com/WxImages/Radar/#{nearest_radar_location}.gif"
   end
 
   def self.popular_locations
