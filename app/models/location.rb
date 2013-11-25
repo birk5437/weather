@@ -65,9 +65,17 @@ class Location < ActiveRecord::Base
     # url = "http://free.worldweatheronline.com/feed/weather.ashx?q=" + zip + "&format=json&key=55d99285d6001415122608"
     url = "http://api.worldweatheronline.com/free/v1/weather.ashx?q=" + zip + "&format=json&key=z8qme23navrzw7dq9hp7mudf"
     response = JSON.parse(RestClient.get(url))["data"]["current_condition"].first
-    response["weatherDesc"] = (response["weatherDesc"].first["value"] rescue "")
-    response["weatherIconUrl"] = (response["weatherIconUrl"].first["value"] rescue "")
-    response
+    parse_forecast_json(response)
+  end
+
+  def weather_forecast(n_days)
+    url = "http://api.worldweatheronline.com/free/v1/weather.ashx?q=#{zip}&format=json&num_of_days=#{n_days}&key=z8qme23navrzw7dq9hp7mudf"
+    response = JSON.parse(RestClient.get(url))["data"]["weather"]
+    arr = []
+    response.each do |r|
+      arr << parse_forecast_json(r)
+    end
+    # parse_forecast_json(response)
   end
 
   def nearest_radar_location
@@ -84,6 +92,13 @@ class Location < ActiveRecord::Base
 
   def self.popular_locations
     Location.find(:all, :conditions => "request_count > 0", :order => "request_count DESC", :limit => 10)
+  end
+
+  def parse_forecast_json(json_response)
+    response = json_response
+    response["weatherDesc"] = (response["weatherDesc"].first["value"] rescue "")
+    response["weatherIconUrl"] = (response["weatherIconUrl"].first["value"] rescue "")
+    response
   end
 
 end
