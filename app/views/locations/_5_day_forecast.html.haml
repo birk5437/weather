@@ -1,0 +1,4 @@
+%table
+  %tr
+    - location.weather_forecast(5).each do |w|
+      %p= w["temp_F"]

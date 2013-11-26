@@ -24,5 +24,20 @@
   %div{:style => "width: 75%; float: left; min-width: 456px;"}
     = image_tag(@location.radar_image_url, :style => "max-width: 768px; width: 100%;")
 
+  - weather_forecast = @location.weather_forecast(5)
+  %div
+    %br
+    %table{:style => "padding-top: 1em;"}
+      %thead
+        - weather_forecast.each do |w|
+          %th{:style => "border: 1px solid black;"}= w["date"]
+      %tr
+        - weather_forecast.each do |w|
+          %td{:style => "border: 1px dotted black;"}
+            = image_tag(w["weatherIconUrl"], :style => "margin-left: auto; margin-right: auto; display: block;")
+            %h4{:style => "text-align: center;"}= w["weatherDesc"]
+            %p{:style => "text-align: center;"}="High: #{w["tempMaxF"]}"
+            %p{:style => "text-align: center;"}="Low: #{w["tempMinF"]}"
+
 =# link_to 'Edit', edit_location_path(@location)
 
