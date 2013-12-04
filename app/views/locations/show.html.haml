@@ -29,8 +29,13 @@
     %br
     %table{:style => "padding-top: 1em;"}
       %thead
-        - weather_forecast.each do |w|
-          %th{:style => "border: 1px solid black;"}= w["date"]
+        - weather_forecast.each_with_index do |w, i|
+          - if i == 0
+            %th{:style => "width: 100px; border: 1px solid black;"}= "Today"
+          - elsif i == 1
+            %th{:style => "width: 100px; border: 1px solid black;"}= "Tomorrow"
+          - else
+            %th{:style => "width: 100px; border: 1px solid black;"}= DateTime.parse(w["date"]).strftime("%A")
       %tr
         - weather_forecast.each do |w|
           %td{:style => "border: 1px dotted black;"}
