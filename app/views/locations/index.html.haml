@@ -13,19 +13,20 @@
   %br
   %h4 Popular Locations
 
-  %table
-    %thead
-    %tbody
-      - popular_locations.each do |location|
-        - conditions = location.current_conditions
-        %tr
-          %td= link_to "#{location.to_s} #{location.zip}", "/locations/#{location.zip}"
-          %td
-            = conditions["temp_F"] + "°F"
-          %td
-            = conditions["winddirDegree"] + "@" + conditions["windspeedMiles"]
-          %td
-            %img{:src => conditions["weatherIconUrl"], :style => "max-width: 32px;"}
+  %div{ :style => "overflow: scroll;" }
+    %table
+      %thead
+      %tbody
+        - popular_locations.each do |location|
+          - conditions = location.current_conditions
+          %tr
+            %td= link_to "#{location.to_s} #{location.zip}", "/locations/#{location.zip}"
+            %td
+              = conditions["temp_F"] + "°F"
+            %td
+              = conditions["winddirDegree"] + "@" + conditions["windspeedMiles"]
+            %td
+              %img{:src => conditions["weatherIconUrl"], :style => "max-width: 32px;"}
       
     
 

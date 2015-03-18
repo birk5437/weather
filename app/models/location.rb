@@ -103,7 +103,7 @@ class Location < ActiveRecord::Base
   end
 
   def self.popular_locations
-    Location.find(:all, :conditions => "request_count > 0", :order => "request_count DESC", :limit => 10)
+    Location.find(:all, :conditions => "request_count > 0", :order => "request_count DESC", :limit => 100)
   end
 
   def parse_forecast_json(json_response)
