@@ -64,13 +64,25 @@ class Location < ActiveRecord::Base
     # http://developer.worldweatheronline.com/documentation
     # url = "http://free.worldweatheronline.com/feed/weather.ashx?q=" + zip + "&format=json&key=55d99285d6001415122608"
     url = "http://api.worldweatheronline.com/free/v1/weather.ashx?q=" + zip + "&format=json&key=z8qme23navrzw7dq9hp7mudf"
-    response = JSON.parse(RestClient.get(url))["data"]["current_condition"].first
+
+    response_string = DbCacheItem.get("current_conditions_location_id_#{id}", :valid_for => 30.minutes) do
+      RestClient.get(url)
+    end
+    response = JSON.parse(response_string)["data"]["current_condition"].first
     parse_forecast_json(response)
   end
 
   def weather_forecast(n_days)
     url = "http://api.worldweatheronline.com/free/v1/weather.ashx?q=#{zip}&format=json&num_of_days=#{n_days}&key=z8qme23navrzw7dq9hp7mudf"
-    response = JSON.parse(RestClient.get(url))["data"]["weather"]
+    valid_for = if DateTime.tomorrow.beginning_of_day - DateTime.now < 3600
+                  DateTime.tomorrow.beginning_of_day - DateTime.now
+                else
+                  3600
+                end
+    response_string = DbCacheItem.get("weather_forecast_#{n_days}_for_location_id#{id}", :valid_for => valid_for) do
+      RestClient.get(url)
+    end
+    response = JSON.parse(response_string)["data"]["weather"]
     arr = []
     response.each do |r|
       arr << parse_forecast_json(r)
