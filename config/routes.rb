@@ -1,8 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller => "locations", :action => "index"
-  map.resources :locations, :only => [:index, :show]
+  map.resources :locations, :only => [:index]#, :show]
   map.location_search '/locations/search', :controller => "locations", :action => "search"
-
+  map.connect 'locations/:zip', :controller => "locations", :action => "show"
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

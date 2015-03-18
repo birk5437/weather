@@ -23,7 +23,7 @@ class LocationsController < ApplicationController
     else
       @location.request_count += 1
       @location.save
-      redirect_to location_path(@location)
+      redirect_to "/locations/#{@location.zip}"
     end
   end
 
@@ -36,7 +36,8 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.xml
   def show
-    @location = Location.find(params[:id])
+    @location = Location.find_by_zip(params[:zip])
+    #@location = Location.find(params[:id])
     # @location.request_count += 1
     # @location.save
 

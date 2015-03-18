@@ -14,7 +14,7 @@
   %h4 Popular Locations
   %ol
     - popular_locations.each do |location|
-      %li= link_to "#{location.to_s} #{location.zip}", location_url(location)
+      %li= link_to "#{location.to_s} #{location.zip}", "/locations/#{location.zip}"
 
 
 %script{:type => "text/javascript"}
