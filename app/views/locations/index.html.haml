@@ -8,7 +8,7 @@
   = f.text_field :term
   = f.commit_button :button_html => { :value => "Search" }
 
-- popular_locations = Location.popular_locations
+- popular_locations = Location.popular_locations.first(10)
 - if popular_locations.count > 1
   %br
   %h4 Popular Locations
